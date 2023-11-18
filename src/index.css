@@ -103,6 +103,9 @@ body {
   border: 0.8em solid hsl(189, 58%, 57%);
   box-shadow: 0 6px 0 0 hsl(189, 59%, 53%), inset 0 7px 3px var(--HeaderOutline);
 }
+.bg-loading{
+  background-color: #192845;
+}
 
 .img-item{
   width: 2.5em;
@@ -137,6 +140,27 @@ body {
 
 .buttons_container .spock{
 	transform: translate(-180%, 210%);
+}
+.pickedModal{
+  display: flex;
+  justify-content: space-between;
+  width: 18em;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%,50%);
+}
+.pickedModal .bg{
+  width: 8em;
+  height: 8em;
+}
+.pickedModal .bg .img-item{
+  width: 3em;
+}
+.pickedModal p{
+  color: white;
+  text-align: center;
+  margin-top: 15px;
 }
 
 footer{

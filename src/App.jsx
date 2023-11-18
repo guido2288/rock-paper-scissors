@@ -2,19 +2,21 @@ import { useState } from "react"
 import RulesModals from "./components/RulesModals"
 import ButtonsModal from "./components/ButtonsModal";
 import ScoreModal from "./components/ScoreModal";
+import PickedModal from "./components/PickedModal";
 
 function App() {
 
   const [rules, setRules] = useState(null);
-  const [winner, setWinner] = useState(null);
+  const [game, setGame] = useState(null);
+  const [playerPicked, setplayerPicked] = useState('');
   const [score, setScore] = useState(0);
 
   const winGame = {
-    "🗿": ["✂️", "🦎"],
-    "📄": ["🗿", "🖖"],
-    "✂️": ["📄", "🦎"],
-    "🦎": ["📄", "🖖"],
-    "🖖": ["🗿", "✂️"],
+    "rock": ["scissors", "lizard"],
+    "paper": ["rock", "spock"],
+    "scissors": ["paper", "lizard"],
+    "lizard": ["paper", "spock"],
+    "spock": ["rock", "scissors"],
   };
 
   const handleRules = () => {
@@ -22,35 +24,37 @@ function App() {
     if(rules) setRules(null)
   }
 
-  const handleSelect = (platerSelection) => {
+  const handleSelect = (playerSelection) => {
+
+    setplayerPicked(playerSelection)
+    setGame(true);
 
     const houseRandomPick = Math.floor(Math.random() * 4);
     const houseSelection = Object.keys(winGame)[houseRandomPick];
     
-    const games = [platerSelection , houseSelection];
-
-    console.log(games)
-    for (const game of games) {
-      
-      const playerGame = games[0];
-      const houseGame = games[1];
+    const games = [playerSelection , houseSelection];
 
 
-      if(winGame[playerGame].includes(houseGame)){
-        setScore(score + 1);
-        console.log("ganaste!")
-      } else {
-        console.log("perdiste")
-      }
-
+    if(winGame[games[0]].includes(games[1])){
+      setScore(score + 1);
+      console.log("ganaste!")
+    } else if(games[0] == games[1]){
+      console.log("empate!")
+    } else {
+      console.log("perdiste")
     }
+
+    
   }
 
   return (
     <>
       <ScoreModal score={score}/>
 
-      <ButtonsModal handleSelect={handleSelect}/>
+      {
+        !game ? <ButtonsModal handleSelect={handleSelect}/>
+        : <PickedModal playerPicked={playerPicked}/>
+      }
 
       <RulesModals rules={rules} handleRules={handleRules}/>
 
