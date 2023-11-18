@@ -11,7 +11,13 @@ function App() {
   const [playerPicked, setplayerPicked] = useState('');
   const [housePicked, sethousePicked] = useState('');
   const [result, setResult] = useState(null);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(() => {
+    const scoreFromStorage = window.localStorage.getItem('score');
+
+    if(scoreFromStorage) return JSON.parse(scoreFromStorage);
+
+    return 0;
+  });
 
   const winGame = {
     "rock": ["scissors", "lizard"],
@@ -32,7 +38,7 @@ function App() {
     setGame(true);
 
     setTimeout( () => {
-      const houseRandomPick = Math.floor(Math.random() * 4);
+      const houseRandomPick = Math.floor(Math.random() * 5);
       const houseSelection = Object.keys(winGame)[houseRandomPick];
 
       sethousePicked(houseSelection);
@@ -40,7 +46,9 @@ function App() {
   
   
       if(winGame[games[0]].includes(games[1])){
-        setScore(score + 1);
+        const newScore = score + 1;
+        setScore(newScore);
+        window.localStorage.setItem('score', JSON.stringify(newScore))
         setResult("YOU WIN");
       } else if(games[0] == games[1]){
         setResult("TIE");
