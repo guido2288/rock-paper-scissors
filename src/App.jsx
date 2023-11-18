@@ -9,6 +9,8 @@ function App() {
   const [rules, setRules] = useState(null);
   const [game, setGame] = useState(null);
   const [playerPicked, setplayerPicked] = useState('');
+  const [housePicked, sethousePicked] = useState('');
+  const [result, setResult] = useState(null);
   const [score, setScore] = useState(0);
 
   const winGame = {
@@ -26,25 +28,34 @@ function App() {
 
   const handleSelect = (playerSelection) => {
 
-    setplayerPicked(playerSelection)
+    setplayerPicked(playerSelection);
     setGame(true);
 
-    const houseRandomPick = Math.floor(Math.random() * 4);
-    const houseSelection = Object.keys(winGame)[houseRandomPick];
+    setTimeout( () => {
+      const houseRandomPick = Math.floor(Math.random() * 4);
+      const houseSelection = Object.keys(winGame)[houseRandomPick];
+
+      sethousePicked(houseSelection);
+      const games = [playerSelection , houseSelection];
+  
+  
+      if(winGame[games[0]].includes(games[1])){
+        setScore(score + 1);
+        setResult("YOU WIN");
+      } else if(games[0] == games[1]){
+        setResult("TIE");
+      } else {
+        setResult("YOU LOSE");
+      }
+    }, 1000 )
     
-    const games = [playerSelection , houseSelection];
+  }
 
-
-    if(winGame[games[0]].includes(games[1])){
-      setScore(score + 1);
-      console.log("ganaste!")
-    } else if(games[0] == games[1]){
-      console.log("empate!")
-    } else {
-      console.log("perdiste")
-    }
-
-    
+  const handleReset = () => {
+    setGame(null);
+    setplayerPicked('');
+    sethousePicked('');
+    setResult(null);
   }
 
   return (
@@ -53,10 +64,10 @@ function App() {
 
       {
         !game ? <ButtonsModal handleSelect={handleSelect}/>
-        : <PickedModal playerPicked={playerPicked}/>
+        : <PickedModal playerPicked={playerPicked} housePicked={housePicked} result={result} handleReset={handleReset}/>
       }
 
-      <RulesModals rules={rules} handleRules={handleRules}/>
+      <RulesModals rules={rules} handleRules={handleRules} />
 
       <footer>
         <div>
