@@ -1,4 +1,4 @@
-const ScoreModal = () => {
+const ScoreModal = ({score}) => {
   return (
     <section className="score_container">
         <ul>
@@ -11,7 +11,7 @@ const ScoreModal = () => {
     
         <div className="scoreDisplay">
           <p>SCORE</p>
-          <p>12</p>
+          <p>{score}</p>
         </div>
   </section>
   )
